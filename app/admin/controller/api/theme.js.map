@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../../src/admin/controller/api/theme.js"
+    ],
+    "names": [],
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAEA;;;;AACA;;;;AACA;;;;;;AAEA,IAAM,YAAY,eAAK,IAAL,CAAU,MAAM,aAAhB,EAA+B,OAA/B,CAAlB;;;;;;;;;;mBAGQ,S;;;;;;;;;qBACgB,MAAM,SAAN,CAAgB,aAAG,OAAnB,EAA4B,SAA5B,C;;;AAAhB,oB;AAEA,oB,GAAS,E;0BACI,M;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAT,mB;AACF,sB,GAAW,eAAK,IAAL,CAAU,SAAV,EAAqB,KAArB,EAA4B,cAA5B,C;;;qBAEI,MAAM,SAAN,CAAgB,aAAG,IAAnB,EAAyB,QAAzB,C;;;AAAb,kB;;AACJ,qBAAO,IAAP,CAAa,MAAM,MAAN,CAAa,EAAC,IAAI,KAAL,EAAb,EAA0B,MAAM,OAAN,CAAc,QAAd,CAA1B,CAAb;;;;;;;;AAEA,sBAAQ,GAAR;;;;;;;+CAGG,KAAK,OAAL,CAAa,MAAb,C",
+    "file": "../../../../src/admin/controller/api/theme.js",
+    "sourcesContent": [
+        "'use strict';\n\nimport fs from 'fs';\nimport path from 'path';\nimport Base from './base.js';\n\nconst THEME_DIR = path.join(think.RESOURCE_PATH, 'theme');\n\nexport default class extends Base {\n  async getAction(){\n    let themes = (await think.promisify(fs.readdir)(THEME_DIR));\n\n    let result = [];\n    for(let theme of themes) {\n      let infoFile = path.join(THEME_DIR, theme, 'package.json');\n      try {\n        let stat = await think.promisify(fs.stat)(infoFile);\n        result.push( think.extend({id: theme}, think.require(infoFile)) );\n      } catch(e) {\n        console.log(e);\n      }\n    }\n    return this.success(result);\n  }\n}\n"
+    ]
+}

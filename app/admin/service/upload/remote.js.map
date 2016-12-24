@@ -1,0 +1,47 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../../src/admin/service/upload/remote.js"
+    ],
+    "names": [
+        "defaults",
+        "strictSSL",
+        "rejectUnauthorized",
+        "getFileContent",
+        "think",
+        "promisify",
+        "get",
+        "putFileContent",
+        "writeFile",
+        "uploadMethod",
+        "url",
+        "name",
+        "headers",
+        "timeout",
+        "encoding",
+        "catch",
+        "Error",
+        "result",
+        "indexOf",
+        "destDir",
+        "formatNow",
+        "basename",
+        "md5",
+        "body",
+        "path",
+        "extname",
+        "destPath",
+        "join",
+        "UPLOAD_PATH",
+        "isDir",
+        "mkdir",
+        "run",
+        "file",
+        "config"
+    ],
+    "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;;AACA;;;;AACA;;;;;;AAEA,kBAAQA,QAAR,CAAiB;AACfC,aAAW,KADI;AAEfC,sBAAoB;AAFL,CAAjB;;AAKA,IAAMC,iBAAiBC,MAAMC,SAAN,CAAgB,kBAAQC,GAAxB,oBAAvB;AACA,IAAMC,iBAAiBH,MAAMC,SAAN,CAAgB,aAAGG,SAAnB,eAAvB;;;;;;;;;;mBAGQC,Y;2FAAaC,G;UAAMC,I,SAAAA,I;;;;;;;qBACJR,eAAe;AAChCO,wBADgC;AAEhCE,yBAAS;AACP,gCAAc;AADP,iBAFuB;AAKhCX,2BAAW,KALqB;AAMhCY,yBAAS,IANuB;AAOhCC,0BAAU;AAPsB,eAAf,EAQhBC,KARgB,CAQV,YAAM;AAAE,sBAAMC,MAAM,kBAAN,CAAN;AAAkC,eARhC,C;;;AAAfC,oB;;oBAUDA,OAAOL,OAAP,CAAe,cAAf,EAA+BM,OAA/B,CAAuC,OAAvC,MAAoD,CAAC,C;;;;;oBAChDF,MAAM,mBAAN,C;;;AAGJG,qB,GAAU,KAAKC,SAAL,E;AACVC,sB,GAAW,CAACV,OAAOA,IAAP,GAAcP,MAAMkB,GAAN,CAAUL,OAAOM,IAAjB,CAAf,IAAyCC,KAAKC,OAAL,CAAaf,GAAb,C;AACpDgB,sB,GAAWF,KAAKG,IAAL,CAAWvB,MAAMwB,WAAjB,EAA8BT,OAA9B,C;;;AAEf,kBAAI,CAACf,MAAMyB,KAAN,CAAYH,QAAZ,CAAL,EAA6B;AAC3BtB,sBAAM0B,KAAN,CAAYJ,QAAZ;AACD;;;qBAEcnB,eAAgBiB,KAAKG,IAAL,CAAUD,QAAV,EAAoBL,QAApB,CAAhB,EAA+CJ,OAAOM,IAAtD,EAA4D,QAA5D,C;;;AAAfN,oB;+CACOO,KAAKG,IAAL,CAAU,gBAAV,EAA4BR,OAA5B,EAAqCE,QAArC,C;;;;;;;;;;;;;;;;;mBAGHU,G;6FAAIC,I,EAAMC,M;;;;;;qBACD,KAAKxB,YAAL,CAAkBuB,IAAlB,EAAwBC,MAAxB,C",
+    "file": "../../../../src/admin/service/upload/remote.js",
+    "sourcesContent": [
+        "import fs from 'fs';\nimport Base from './base';\nimport request from 'request';\n\nrequest.defaults({\n  strictSSL: false,\n  rejectUnauthorized: false\n});\n\nconst getFileContent = think.promisify(request.get, request);\nconst putFileContent = think.promisify(fs.writeFile, fs);\n\nexport default class extends Base {\n  async uploadMethod(url, {name}) {\n    let result = await getFileContent({\n      url,\n      headers: {\n        \"User-Agent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) Chrome/47.0.2526.111 Safari/537.36\"\n      },\n      strictSSL: false,\n      timeout: 1000,\n      encoding: 'binary'\n    }).catch(() => { throw Error(\"UPLOAD_URL_ERROR\"); });\n\n    if(result.headers[\"content-type\"].indexOf('image') === -1) {\n      throw Error('UPLOAD_TYPE_ERROR');\n    }\n\n    let destDir = this.formatNow();\n    let basename = (name ? name : think.md5(result.body)) + path.extname(url);\n    let destPath = path.join( think.UPLOAD_PATH, destDir );\n\n    if( !think.isDir(destPath) ) {\n      think.mkdir(destPath);\n    }\n\n    result = await putFileContent( path.join(destPath, basename), result.body, 'binary');\n    return path.join('/static/upload', destDir, basename);\n  }\n\n  async run(file, config) {\n    return await this.uploadMethod(file, config);\n  }\n}"
+    ]
+}

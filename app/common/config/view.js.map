@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/common/config/view.js"
+    ],
+    "names": [],
+    "mappings": "AAAA;;;;;;;;AACA;;;;AACA,IAAM,cAAc,SAAd,WAAc;AAAA,SAAO,MAAM,oBAAY,GAAZ,EAAiB,GAAjB,CAAqB;AAAA,WAAK,mBAAmB,CAAnB,IAAwB,GAAxB,GAA8B,mBAAmB,IAAI,CAAJ,CAAnB,CAAnC;AAAA,GAArB,EAAoF,IAApF,CAAyF,GAAzF,CAAb;AAAA,CAApB;AACA;;;kBAGe;AACb,QAAM,UADO;AAEb,gBAAc,WAFD;AAGb,YAAU,OAHG;AAIb,aAAW,GAJE;AAKb,aAAW,MAAM,SAAN,GAAkB,OALhB;AAMb,WAAS;AACP,cAAU;AACR,iBAAW,mBAAS,QAAT,EAAmB,GAAnB,EAAwB;AACjC,YAAI,SAAJ,CAAc,KAAd,EAAqB;AAAA,iBAAS,IAAI,IAAJ,CAAS,IAAT,CAAD,CAAiB,WAAjB,EAAR;AAAA,SAArB;AACA,YAAI,SAAJ,CAAc,YAAd,EAA4B,UAAS,IAAT,EAAe;AAAA,uBACjB,gBAAM,KAAK,GAAL,CAAS,IAAT,CAAc,GAApB,EAAyB,IAAzB,CADiB;;AAAA,cACpC,QADoC,UACpC,QADoC;AAAA,cAC1B,KAD0B,UAC1B,KAD0B;;;AAGzC,gBAAM,IAAN,GAAa,IAAb;AACA,iBAAO,WAAW,YAAY,KAAZ,CAAlB;AACD,SALD;AAMD;AATO;AADH;AANI,C",
+    "file": "../../../src/common/config/view.js",
+    "sourcesContent": [
+        "'use strict';\nimport {parse} from 'url';\nconst build_query = obj => '?' + Object.keys(obj).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&');\n/**\n * template config\n */\nexport default {\n  type: 'nunjucks',\n  content_type: 'text/html',\n  file_ext: '.html',\n  file_depr: '_',\n  root_path: think.ROOT_PATH + '/view',\n  adapter: {\n    nunjucks: {\n      prerender: function(nunjucks, env) {\n        env.addFilter('utc', time => (new Date(time)).toUTCString());\n        env.addFilter('pagination', function(page) {\n          let {pathname, query} = parse(this.ctx.http.url, true);\n          \n          query.page = page;\n          return pathname + build_query(query);\n        });\n      }\n    }\n  }\n};\n"
+    ]
+}

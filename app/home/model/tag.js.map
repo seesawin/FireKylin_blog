@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/home/model/tag.js"
+    ],
+    "names": [],
+    "mappings": "AAAA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;gLAKE,Q,GAAW;AACT,gBAAU;AACR,cAAM,MAAM,KAAN,CAAY,QADV;AAER,eAAO;AAFC;AADD,K;;;AAOX;;;;mBAIM,U;;;;;;;;qBACa,KAAK,aAAL,E;;;AAAb,kB;+CACG,KAAK,KAAL,CAAW,CAAX,EAAc,CAAd,C;;;;;;;;;;;;;;;;;mBAGH,a;;;;;;;;;qBACa,KAAK,KAAL,CAAW,UAAX,EAAuB,IAAvB,CAA4B;AAC3C,uBAAO,MADoC;AAE3C,oBAAI,CAAC,SAAD,EAAY,IAAZ;AAFuC,eAA5B,EAGd,IAHc,CAGT;AACN,uBAAO,KADD;AAEN,oBAAI,CAAC,QAAD,EAAW,IAAX;AAFE,eAHS,EAMd,KANc,CAMR;AACP,sBAAM,CADC;AAEP,wBAAQ,CAFD;AAGP,2BAAW;AAHJ,eANQ,EAUd,MAVc,E;;;AAAb,kB;AAYA,oB,GAAS,E;0BACE,I;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAP,iB;;AACN,kBAAG,OAAO,IAAI,QAAX,CAAH,EAAyB;AACvB,uBAAO,IAAI,QAAX,EAAqB,KAArB,IAA8B,CAA9B;AACD,eAFD,MAEO;AACL,uBAAO,IAAI,QAAX,IAAuB;AACrB,wBAAM,IAAI,IADW;AAErB,4BAAU,mBAAmB,IAAI,QAAvB,CAFW;AAGrB,yBAAO;AAHc,iBAAvB;AAKD;;;;;;;gDAEI,sBAAc,MAAd,EAAsB,IAAtB,CAA2B,UAAC,CAAD,EAAG,CAAH;AAAA,uBAAQ,EAAE,KAAF,GAAQ,EAAE,KAAV,GAAkB,CAAC,CAAnB,GAAuB,CAA/B;AAAA,eAA3B,C;;;;;;;;;;;;;;;;;;EA3CkB,MAAM,KAAN,CAAY,Q",
+    "file": "../../../src/home/model/tag.js",
+    "sourcesContent": [
+        "'use strict';\n/**\n * model\n */\nexport default class extends think.model.relation {\n\n  relation = {\n    post_tag: {\n      type: think.model.HAS_MANY,\n      field: 'tag_id'\n    }\n  };\n\n  /**\n   * get hot tags\n   * @return {} []\n   */\n  async getHotTags(){\n    let data = await this.getTagArchive();\n    return data.slice(0, 5);\n  }\n\n  async getTagArchive(){\n    let data = await this.model('post_tag').join({\n      table: 'post',\n      on: ['post_id', 'id']\n    }).join({\n      table: 'tag',\n      on: ['tag_id', 'id']\n    }).where({\n      type: 0,\n      status: 3,\n      is_public: 1\n    }).select();\n    \n    let result = {};\n    for(let tag of data) {\n      if(result[tag.pathname]) {\n        result[tag.pathname].count += 1;\n      } else {\n        result[tag.pathname] = {\n          name: tag.name,\n          pathname: encodeURIComponent(tag.pathname),\n          count: 1\n        };\n      }\n    }\n    return Object.values(result).sort((a,b)=> a.count>b.count ? -1 : 1);\n  }\n}\n"
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/admin/controller/pushToFirekylin.js"
+    ],
+    "names": [],
+    "mappings": ";;AAAA,IAAI,UAAU,QAAQ,SAAR,CAAd;AACA,IAAI,SAAS,QAAQ,QAAR,CAAb;AACA,IAAI,eAAe,OAAO,YAA1B;AACA,QAAQ,QAAR,CAAiB;AACf,aAAW,KADI;AAEf,sBAAoB;AAFL,CAAjB;;AAKA,SAAS,KAAT,CAAe,GAAf,EAAoB,OAApB,EAA6B,UAA7B,EAAyC,OAAzC,EAAkD,CAEjD;;AAED,OAAO,OAAP,GAAiB;AACf,SAAO,eAAS,GAAT,EAAc,OAAd,EAAuB,UAAvB,EAAmC,CAEzC,CAHc;AAIf,QAAM,cAAS,GAAT,EAAc,OAAd,EAAuB,UAAvB,EAAmC,IAAnC,EAAyC,CAE9C;AANc,CAAjB",
+    "file": "../../../src/admin/controller/pushToFirekylin.js",
+    "sourcesContent": [
+        "var request = require('request');\nvar phpass = require('phpass');\nvar PasswordHash = phpass.PasswordHash;\nrequest.defaults({\n  strictSSL: false,\n  rejectUnauthorized: false\n});\n\nfunction check(url, app_key, app_secret, content) {\n\n}\n\nmodule.exports = {\n  apply: function(url, app_key, app_secret) {\n\n  },\n  push: function(url, app_key, app_secret, post) {\n\n  }\n};\n"
+    ]
+}

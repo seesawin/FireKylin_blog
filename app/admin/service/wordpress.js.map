@@ -1,0 +1,16 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/admin/service/wordpress.js"
+    ],
+    "names": [
+        "think",
+        "service",
+        "base"
+    ],
+    "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;EAA6BA,MAAMC,OAAN,CAAcC,I",
+    "file": "../../../src/admin/service/wordpress.js",
+    "sourcesContent": [
+        "export default class extends think.service.base {\n  \n}\n"
+    ]
+}
