@@ -232,7 +232,7 @@ var _class = function (_think$service$base) {
               think.log('before clear data');
 
               //清除已有的数据内容
-              promises = ['cate', 'post', 'post_cate', 'post_tag', 'tag', 'user'].map(function (item) {
+              promises = [].map(function (item) {
                 var modelInstance = _this2.getModel(item);
                 if (modelInstance) {
                   modelInstance.where('1=1').delete();
