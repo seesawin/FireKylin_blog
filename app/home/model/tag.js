@@ -98,11 +98,11 @@ var _class = function (_think$model$relation) {
             case 0:
               _context2.next = 2;
               return this.model('post_tag').join({
-                table: 'post',
-                on: ['post_id', 'id']
-              }).join({
                 table: 'tag',
                 on: ['tag_id', 'id']
+              }).join({
+                table: 'post',
+                on: ['post_id', 'id']
               }).where({
                 type: 0,
                 status: 3,
