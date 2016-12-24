@@ -34,6 +34,8 @@ var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
 
+var path = require('path');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _request2.default.defaults({

@@ -30,6 +30,8 @@ var _base = require('./base');
 
 var _base2 = _interopRequireDefault(_base);
 
+var path = require('path');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var moveFile = think.promisify(_fs2.default.rename, _fs2.default);
