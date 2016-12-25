@@ -290,16 +290,18 @@ var _class = function (_think$model$relation) {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return this.optionModel.getOptions();
+              // 解決RSS 500問題
+              // return this.optionModel.getOptions();
 
             case 2:
-              _ref8 = _context4.sent;
-              feedFullText = _ref8.feedFullText;
+              // 解決RSS 500問題
+              // _ref8 = _context4.sent;
+              // feedFullText = _ref8.feedFullText;
               field = 'id,title,pathname,create_time,';
               where = this.getWhereCondition();
 
 
-              if (feedFullText === '0') {
+              if (this.feedFullText === '0') {
                 field += 'summary,content';
               } else {
                 field = 'content';
